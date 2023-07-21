@@ -1,0 +1,56 @@
+header{
+    /* overflow: hidden;
+    background-color: #f1f1f1;
+    width: auto; */
+    display:inline-block;
+    margin: 0 auto;
+  }
+
+.img{
+    display: block;
+    width: 30%;
+    height: 30%;
+    margin: auto;
+}
+
+body{
+    background: #eee;  
+}  
+
+.btn{
+    color: #fff;  
+    background: #337ab7;  
+    padding: 7px;  
+    margin-left: 70%;  
+}
+
+footer{
+    display:flex;
+    background-color: whitesmoke;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    width: 100%;
+    border-top: 1px solid white;
+    justify-content:center;
+    align-items:center;
+    }
+
+    body{
+        min-height:100vh;
+     }
+     
+     .flex-fill{
+        flex:1 1 auto;
+     }
+
+     .center {
+        display: flex;
+        justify-content: center;
+      }
+
+      .searchdb {
+        font-size: 11px;
+      }

@@ -76,7 +76,7 @@ if(!empty($name)){
 }
 
 $result = $conn->query($query);
-print("<p style='font-size: 14'><b>Company | EAN | SKU | Manufacturer | Stock | Title | Price | Weight |</b></p>");
+print("<p style='font-size: 14'>Company | <b>EAN</b> | SKU | Manufacturer | <b>Stock</b> | Title | <b>Price</b> | Weight |</p>");
 foreach($result as $row){
     print("<a style='font-size: 12px'> {$row['company']} | <b>{$row['ean']}</b> | {$row['sku']} | 
           {$row['manufacturer']} | <b>{$row['stock']}</b> | {$row['title']} | <b>{$row['price']}</b> | 

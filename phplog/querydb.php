@@ -52,19 +52,17 @@ if (!$conn){
   }
 
 
-  if (str_contains($query, 'count')){
-    $result = $conn->query("select count(*) as 'count' from e_deals_tbl");
-    print($count);
-    }
+$result = $conn->query($query);
 
-  try{
-    foreach($result as $row){
-        print("<div style='font-size: 12px'>{$row['id']} | }{$row['company']} | {$row['ean']} | {$row['title']} | {$row['price']} | {$row['time_stamp']}<br></div>");
-    }
+try{
+  foreach($result as $row){
+    print("<a style='font-size: 12px'>{$row['id']} | {$row['company']} | <b>{$row['ean']}</b> | {$row['title']} | <b>{$row['price']}</b></a><br>");
+    //   print("<div style='font-size: 12px'>{$row['id']} | }{$row['company']} | {$row['ean']} | {$row['title']} | {$row['price']} | {$row['time_stamp']}<br></div>");
   }
-  catch(Exception $e) {
-    print("Message: {$e->getMessage()}");
-  }
+}
+catch(Exception $e) {
+  print("Message: {$e->getMessage()}");
+}
 
-  ?>
+?>
   

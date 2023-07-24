@@ -24,6 +24,15 @@ body{
     margin-left: 70%;  
 }
 
+.fnt{
+  font-size: 12px;
+}
+
+.bfnt{
+  font-size: 12;
+  font-weight: bold;
+}
+
 footer{
     display:flex;
     background-color: whitesmoke;
@@ -47,10 +56,10 @@ footer{
      }
 
      .center {
-        display: flex;
-        justify-content: center;
-      }
+  display: flex;
+  justify-content: center;
+}
 
-      .searchdb {
-        font-size: 11px;
-      }
+.searchdb {
+  font-size: 11px;
+}

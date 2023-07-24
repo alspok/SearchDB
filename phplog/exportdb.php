@@ -13,8 +13,7 @@
                 <h2>Export file</h2>
                     <p>  
                         <label> Export for </label><br>
-                        <select name="export_for"> 
-                            <option value="no_selection"></option> 
+                        <select name="export_for" style="width: 190px" size="2" > 
                             <option value="varle">Varle</option> 
                             <option value="pigu">Pigu</option> 
                             <option value="kazkas">Kazkas</option> 
@@ -26,7 +25,7 @@
                         <input type="text" name="file_name" placeholder="*.export.csv"/>  
                     </p>  
                     <p>  
-                        <label> Margin % </label><br>
+                        <label> Margin <span class="sfnt">( % )</span></label><br>
                         <input type="text" name = "margin" />  
                     </p>
                     <p>  
@@ -38,8 +37,8 @@
                         <input type="text" name = "min_price" />  
                     </p>  
                     <p>
-                        <label> Suppliers </label><br>
-                        <select name="suppliers" multiple>
+                        <label> Suppliers <span class="sfnt">( 'ctr' for multiple selection )</span> </label><br>
+                        <select name="suppliers[]" style="width:190px" size="3" multiple>
                             <option value="gitana"> Gitana </option>
                             <option value="action"> Action </option>
                             <option value="appolo"> Appolo </option>
@@ -81,27 +80,28 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $export_for = $_POST['export_for'];
-    if(empty($export_for == '')){
+    if($export_for == NULL){
       print("<div class='fnt'>Export for is empty</div>");
     }
     $file_name = $_POST['file_name'];
-    if(empty($file_name)){
+    if($file_name == NULL){
         print("<div class='fnt'>File name field is empty</div>");
     }
     $margin = $_POST['margin'];
-    if(empty($margin)){
+    if($margin == NULL){
         print("<div class='fnt'>Margin field is empty</div>");
     }
     $min_stock = $_POST['min_stock'];
-    if(empty($min_stock)){
+    if($min_stock == NULL){
         print("<div class='fnt'>Min stock field is empty</div>");
     }
     $min_price = $_POST['min_price'];
-    if(empty($min_price)){
+    if($min_price == NULL){
         print("<div class='fnt'>Min price field is empty</div>");
     }
     $suppliers = $_POST['suppliers'];
-    if(empty($suppliers)){
+    print_r($suppliers);
+    if($suppliers == NULL){
         print("<div class='fnt'>Suppliers field is empty</div>");
     }
     print("<br>");
@@ -112,11 +112,11 @@ include_once("../Classes/ConnectDB.php");
 $connection = new ConncctDB();
 $conn = $connection->connectDB();
 
-$query = "select * from e_deals_tbl limit 1000, 1";
+$query = "select * from e_deals_tbl limit 1000, 30";
 $result = $conn->query($query);
 foreach($result as $row){
     foreach($row as $r){
-        print("<span class='fnt'>{$r}</span>&nbsp;&nbsp;");
+        print("<a class='fnt nolinebrake'>{$r}&nbsp;&nbsp;</a>");
     }
     print("<br>");
     // print("<div class='fnt'>{$row}</div>");

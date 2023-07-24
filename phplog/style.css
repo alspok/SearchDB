@@ -33,6 +33,14 @@ body{
   font-weight: bold;
 }
 
+.sfnt{
+  font-size: 11;
+}
+
+.nolinebrake{
+  margin-bottom: 0;
+}
+
 footer{
     display:flex;
     background-color: whitesmoke;

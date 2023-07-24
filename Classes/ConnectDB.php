@@ -12,7 +12,7 @@ class ConncctDB {
  public function connectDB() {
   $this->conn = mysqli_connect($this->server, $this->username, $this->password, $this->database, $this->port, $this->sslmode);
   if(!$this->conn){
-    die("<br>Connection failed: " . mysqli_connect_error());
+    die("<p>Connection failed:</p> " . mysqli_connect_error());
   }
   else{
     print("<p>Connection established</p>");

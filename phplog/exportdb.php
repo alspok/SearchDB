@@ -21,8 +21,8 @@
                         <!-- <input type="text" id ="user" name="export_for" />   -->
                     </p>  
                     <p>  
-                        <label> File name </label><br>  
-                        <input type="text" name="file_name" placeholder="*.export.csv"/>  
+                        <label> File name  <span class="sfnt">( extention *.export.csv )</span> </label><br>  
+                        <input type="text" name="file_name" />  
                     </p>  
                     <p>  
                         <label> Margin <span class="sfnt">( % )</span></label><br>
@@ -38,15 +38,14 @@
                     </p>  
                     <p>
                         <label> Suppliers <span class="sfnt">( 'ctr' for multiple selection )</span> </label><br>
-                        <select name="suppliers[]" style="width:190px" size="3" multiple>
-                            <option value="gitana"> Gitana </option>
-                            <option value="action"> Action </option>
-                            <option value="appolo"> Appolo </option>
-                            <option value="domitech"> Domitech </option>
-                            <option value="nzd"> Nzd </option>
-                            <option value="verkkakoupa"> Verkkakoupa </option>
+                        <select name="companies[]" style="width:190px" size="3" multiple>
+                            <option value="Gitana"> Gitana </option>
+                            <option value="Action"> Action </option>
+                            <option value="Appolo"> Appolo </option>
+                            <option value="Domitech"> Domitech </option>
+                            <option value="Nzd"> Nzd </option>
+                            <option value="Verkkakoupa"> Verkkakoupa </option>
                         </select>
-                        <!-- <input type="textd" name = "suppliers" />   -->
                     </p>  
                     <p>     
                         <input type= "submit" class="btn" value="Export" />
@@ -99,29 +98,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($min_price == NULL){
         print("<div class='fnt'>Min price field is empty</div>");
     }
-    $suppliers = $_POST['suppliers'];
-    print_r($suppliers);
-    if($suppliers == NULL){
+    $companies = $_POST['companies'];
+    if($companies == NULL){
         print("<div class='fnt'>Suppliers field is empty</div>");
     }
     print("<br>");
 }
 
+
+
 include_once("../Classes/ConnectDB.php");
 // include("/var/www/html/SearchDB/Classes/ConnectDB.php");
 $connection = new ConncctDB();
 $conn = $connection->connectDB();
-
-$query = "select * from e_deals_tbl limit 1000, 30";
+$query = "select * from e_deals_tbl limit 100";
 $result = $conn->query($query);
-foreach($result as $row){
-    foreach($row as $r){
-        print("<a class='fnt nolinebrake'>{$r}&nbsp;&nbsp;</a>");
+
+foreach($companies as $company){
+    foreach($result as $row){
+        if($company == $row['company'] && $row['stock'] > $min_stock && (float)$row['price'] > (float)$min_price ){
+            $price_plus = $row['price'] + (($row['price'] * $margin) / 100);
+            print("<a class='fnt'>{$row['company']} | <b>{$row['ean']}</b> | {$row['sku']} | {$row['manufacturer']} | {$row['title']} | <b>{$row['stock']}</b> | {$row['price']} | <b>$price_plus</b> | {$row['weight']} | {$row['time_stamp']}</a><br>");
+        }
     }
-    print("<br>");
-    // print("<div class='fnt'>{$row}</div>");
-    // print($row['id'] . $row['company'] . $row['ean'] . $row['title'] . $row['price'] . $row['time_stamp'] . "<br>");
 }
+    // if($supplier == $row['company']){
+        // print("<a>{$row['company']}</a>");
+    //  && ($min_stock > $row['stock']) && ((float)$min_price) > ((float)$row['price'])){
+        // $margin_price = $row['price'] * ($min_price / 100);
+        // print("<a>{$row['company']} | {$row['ean']} | {$row['sku']} | {$row['title']} | {$row['price']} | $margin_price</a>");
+
+// $query = "select * from e_deals_tbl limit 1000, 30";
+// $result = $conn->query($query);
+// foreach($result as $row){
+//     foreach($row as $r){
+//         print("<a class='fnt nolinebrake'>{$r}&nbsp;&nbsp;</a>");
+//     }
+//     print("<br>");
+//     // print("<div class='fnt'>{$row}</div>");
+//     // print($row['id'] . $row['company'] . $row['ean'] . $row['title'] . $row['price'] . $row['time_stamp'] . "<br>");
+// }
 
 $connection->closeDB();
 print("<br><br>");

@@ -1,4 +1,3 @@
 <html>
-    <h3>dbCreated<h3>
-        <?php include 'dbShowDate.php' ?>
+    <h6>In test.php<h6>
 </html>

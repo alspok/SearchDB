@@ -105,19 +105,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     print("<br>");
 }
 
-
-
 include_once("../Classes/ConnectDB.php");
-// include("/var/www/html/SearchDB/Classes/ConnectDB.php");
 $connection = new ConncctDB();
 $conn = $connection->connectDB();
-$query = "select * from e_deals_tbl limit 100";
-$result = $conn->query($query);
+
+$query = "select * from e_deals_tbl";
+$result = $conn -> query($query);
+print_r($query);
 
 foreach($companies as $company){
     foreach($result as $row){
         if($company == $row['company'] && $row['stock'] > $min_stock && (float)$row['price'] > (float)$min_price ){
-            $price_plus = $row['price'] + (($row['price'] * $margin) / 100);
+            $price_plus = $row['price'] + ($row['price'] * $margin) / 100;
             print("<a class='fnt'>{$row['company']} | <b>{$row['ean']}</b> | {$row['sku']} | {$row['manufacturer']} | {$row['title']} | <b>{$row['stock']}</b> | {$row['price']} | <b>$price_plus</b> | {$row['weight']} | {$row['time_stamp']}</a><br>");
         }
     }

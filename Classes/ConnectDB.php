@@ -22,7 +22,7 @@ class ConncctDB {
 
  public function closeDB(){
     $this->conn->close();
-    print("<p>Connection closed</p>");
+    print("<br><p>Connection closed</p>");
  }
 }
 

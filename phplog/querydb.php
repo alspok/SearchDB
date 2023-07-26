@@ -35,29 +35,40 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-$query = $_POST['query'];
+    $query = $_POST['query'];
 }
 
-$server = "db-mysql-fra1-42194-do-user-14106707-0.b.db.ondigitalocean.com";
-$username = "doadmin";
-$password = "AVNS_IzETuacH57EOU-TThcJ";
-$database = "e_deals_db";
-$port = 25060;
-$sslmode = "REQUIRE";
+// $server = "db-mysql-fra1-42194-do-user-14106707-0.b.db.ondigitalocean.com";
+// $username = "doadmin";
+// $password = "AVNS_IzETuacH57EOU-TThcJ";
+// $database = "e_deals_db";
+// $port = 25060;
+// $sslmode = "REQUIRE";
 
-$conn = mysqli_connect($server, $username, $password, $database, $port, $sslmode);
+// $conn = mysqli_connect($server, $username, $password, $database, $port, $sslmode);
 
-if (!$conn){
-    die("<br>Connection failed: " . mysqli_connect_error());
-  }
+// if (!$conn){
+//     die("<br>Connection failed: " . mysqli_connect_error());
+//   }
 
+include_once("../Classes/ConnectDB.php");
+$connection = new ConncctDB();
+$conn = $connection->connectDB();
 
 $result = $conn->query($query);
 
 try{
-  foreach($result as $row){
-    print("<a style='font-size: 12px'>{$row['id']} | {$row['company']} | <b>{$row['ean']}</b> | {$row['title']} | <b>{$row['price']}</b></a><br>");
-    //   print("<div style='font-size: 12px'>{$row['id']} | }{$row['company']} | {$row['ean']} | {$row['title']} | {$row['price']} | {$row['time_stamp']}<br></div>");
+    if(str_contains($query, "count")){
+        foreach($result as $row){
+            print_r("<a class='sfnt'>Rows in table {$row['count(*)']}</a>");
+        }
+        $connection -> closeDB();
+    }
+    else{
+    foreach($result as $row){
+        print("<a style='font-size: 12px'>{$row['id']} | {$row['company']} | <b>{$row['ean']}</b> | {$row['title']} | <b>{$row['price']}</b> | {$row['weight']} | {$row['time_stamp']}</a><br>");
+    }
+    $connection -> closeDB();
   }
 }
 catch(Exception $e) {

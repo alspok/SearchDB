@@ -8,22 +8,40 @@
         <div style="text-align: center;">
             <img width="400" src="Ledynas_logo.png">
         </div>
-    </header>
-    <body>
-        <div class="d-flex align-items-center justify-content-center" style="height: 250px;">
-            <div class="p-4 m-2 text-black">
-            <div class="row"><h2>Query DB</h2></div>
-                <form action="" method="post">
-                    <div class="row">
-                        <label>Query&emsp;</label>
-                        <input type="text" size="80" name="query" >
+        <br>
+    <div class="container">
+        <body class="sfnt">
+            <!-- <div class="p-4 m-2 text-black"> -->
+            <div class="row border border-2"><h5>Query DB</h5></div>
+                <div class="row border border-2 justify-content-left">
+                    <label><h6>Query&emsp;</h6></label>
+                <form class='form-inline' action="" method="post">
+                    <div class='col-sm-6'>
+                        <input type="text" size="80" name="query"/>
                     </div>
-                    <br>
-                    <div class="row">
-                    <input type= "submit" class="btn center" value="Start" />
+                    <div class='col-sm-6'>
+                        <input type= "submit" class="btn" value="Submit"/>
                     </div>
                 </form>
-                </div>
+            </div>
+
+            <div class="row border border-2">
+                <label for="freeform"><h6>Query examples&emsp;</h6></label>
+                <br><br>
+                <textarea id="freeform" name="freeform" rows="14" cols="100">
+            SHOW databases;
+            USE [database_name];
+            SHOW tables;
+            ------------------------------------
+            SELECT * FROM [table_name];
+            SELECT * FROM [table_name] LIMIT [rows_number];
+            SELECT count(*) FROM [table_name];
+            SELECT count(*) FROM [table_name] WHERE [column_name]=[name];
+            SELECT DISTINCT [name] FROM [table_name];
+            ------------------------------------
+            INSERT INTO [table] ([column_name1], [column_name2], ...) VALUES ([value1], [value2], ...);
+            ------------------------------------
+                </textarea>
             </div>
         </div>
     </body>
@@ -55,25 +73,25 @@ include_once("../Classes/ConnectDB.php");
 $connection = new ConncctDB();
 $conn = $connection->connectDB();
 
+print("<div class='sfnt'><b>Query:</b> {$query}</div>");
 $result = $conn->query($query);
 
-try{
-    if(str_contains($query, "count")){
-        foreach($result as $row){
-            print_r("<a class='sfnt'>Rows in table {$row['count(*)']}</a>");
-        }
-        $connection -> closeDB();
-    }
-    else{
-    foreach($result as $row){
-        print("<a style='font-size: 12px'>{$row['id']} | {$row['company']} | <b>{$row['ean']}</b> | {$row['title']} | <b>{$row['price']}</b> | {$row['weight']} | {$row['time_stamp']}</a><br>");
-    }
-    $connection -> closeDB();
-  }
+echo "<table class='h-auto d-inline-block w-auto p-3'>";
+echo "<tr>";
+while ($field_info = $result->fetch_field()) {
+    // var_dump($field_info);
+    printf("<th class='sfnt'>%s</th>", $field_info->name);
 }
-catch(Exception $e) {
-  print("Message: {$e->getMessage()}");
+echo "</tr>";
+while($row = $result->fetch_row()){
+    echo "<tr>";
+    foreach($row as $item){
+        print("<td class='sfnt'>{$item}</td>");
+    }
+    echo "</tr>";
 }
+echo "</table>";
+
+$connection -> closeDB();
 
 ?>
-  

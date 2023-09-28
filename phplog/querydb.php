@@ -5,27 +5,23 @@
         <link rel = "stylesheet" type = "text/css" href = "style.css">   
     </head>
     <header>
-        <div style="text-align: center;">
+        <div style="text-align: left;">
             <img width="400" src="Ledynas_logo.png">
         </div>
         <br>
     <div class="container">
         <body class="sfnt">
             <!-- <div class="p-4 m-2 text-black"> -->
-            <div class="row border border-2"><h5>Query DB</h5></div>
-                <div class="row border border-2 justify-content-left">
+            <div class="row border border-2 justify-content-center"><h5>Query DB</h5></div>
+                <div class="row border border-2 justify-content-left mt-5">
                     <label><h6>Query&emsp;</h6></label>
                 <form class='form-inline' action="" method="post">
-                    <div class='col-sm-6'>
-                        <input type="text" size="80" name="query"/>
-                    </div>
-                    <div class='col-sm-6'>
-                        <input type= "submit" class="btn" value="Submit"/>
-                    </div>
+                    <div class='col'><input type="text" size="80" name="query"/></div>
+                    <div class='col'><input type= "submit" class="btn" value="Submit"/></div>
                 </form>
             </div>
 
-            <div class="row border border-2">
+            <div class="row border border-2 mt-3">
                 <label for="freeform"><h6>Query examples&emsp;</h6></label>
                 <br><br>
                 <textarea id="freeform" name="freeform" rows="14" cols="100">

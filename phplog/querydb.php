@@ -72,21 +72,20 @@ $conn = $connection->connectDB();
 print("<div class='sfnt'><b>Query:</b> {$query}</div>");
 $result = $conn->query($query);
 
-echo "<table class='h-auto d-inline-block w-auto p-3'>";
-echo "<tr>";
+print("<table class='h-auto d-inline-block w-auto p-3'>");
+print("<tr>");
 while ($field_info = $result->fetch_field()) {
-    // var_dump($field_info);
-    printf("<th class='sfnt'>%s</th>", $field_info->name);
+    print("<th class='sfnt'>{$field_info->name}}</th>");
 }
-echo "</tr>";
+print("</tr>");
 while($row = $result->fetch_row()){
-    echo "<tr>";
+    print("<tr>");
     foreach($row as $item){
         print("<td class='sfnt'>{$item}</td>");
     }
-    echo "</tr>";
+    print("</tr>");
 }
-echo "</table>";
+print("</table>");
 
 $connection -> closeDB();
 

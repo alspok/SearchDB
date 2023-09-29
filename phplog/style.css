@@ -42,8 +42,23 @@ body{
   font-size: 10;
 }
 
+.csfnt{
+  font-size: 10;
+  color: rgb(149, 22, 22);
+}
+
 .nolinebrake{
   margin-bottom: 0;
+}
+
+.full-width {
+  width: 100vw;
+  margin-left: -50vw;
+  left: 50%;
+}
+
+.ssfnt{
+  font-size: 8;
 }
 
 footer{
@@ -68,7 +83,7 @@ footer{
         flex:1 1 auto;
      }
 
-     .center {
+.center {
   display: flex;
   justify-content: center;
 }

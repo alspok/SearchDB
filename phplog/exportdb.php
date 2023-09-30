@@ -9,7 +9,7 @@
                 <img width="400" src="Ledynas_logo.png" >
             </div>
     </header>
-    <div class='container'>
+    <div class='container-fluid'>
         <body>
             <div class="row d-flex align-items-center justify-content-center">
                 <div class='col-auto border border-2'>
@@ -61,19 +61,19 @@
                 <div class='col-auto sfnt border border-2'>
                 <h6>Exported files</h6>
                     <?php
-                        $files = scandir("../ExportFiles");
-                        foreach($files as $file){
-                            if($file == '.' or $file == '..' or $file == '.gitkeep'){
-                                continue;
-                            }
-                            else{
-                                $file_name = "../ExportFiles/" . $file;
-                                $cdate = date ("Y-m-d H:i:s.", filemtime($file_name));
-                                // print("<a class='.fnt'>{$file}.export.csv created at: {$cdate}</a></br>");
-                                print("<a class='sfnt'><b>{$file}.export.csv</b> created at: {$cdate}</a></br>");
-                            }
+                    $files = scandir("../ExportFiles");
+                    foreach($files as $file){
+                        if($file == '.' or $file == '..' or $file == '.gitkeep'){
+                            continue;
                         }
-                        print("<br><br>");
+                        else{
+                            $file_name = "../ExportFiles/" . $file;
+                            $cdate = date ("Y-m-d H:i:s.", filemtime($file_name));
+                            // print("<a class='.fnt'>{$file}.export.csv created at: {$cdate}</a></br>");
+                            print("<a class='sfnt'><b>{$file}.export.csv</b> created at: {$cdate}</a></br>");
+                        }
+                    }
+                    print("<br><br>");
                     include_once("../Classes/ConnectDB.php");
                     $connection = new ConncctDB();
                     $conn = $connection->connectDB();
@@ -103,33 +103,58 @@
                     ?>
                 </div>
             </div>
-            <div class="row d-flex align-items-center justify-content-left">
+            <!-- <div class="row d-flex align-items-center justify-content-left"> -->
+            <div class='row' style=width: 100%>
                 <div class='col-auto sfnt border border-2'>
                     <?php
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $export_for = $_POST['export_for'];
                         if($export_for == NULL){
-                        print("<div class='csfnt'>Export for is empty</div>");
+                            $export_for_bool = FALSE;
+                            print("<div class='csfnt'><b>'Export for'</b> is empty</div>");
+                        }
+                        else{
+                            $export_for_bool = TRUE;
                         }
                         $file_name = $_POST['file_name'];
                         if($file_name == NULL){
-                            print("<div class='csfnt'>File name field is empty</div>");
+                            $file_name_bool = FALSE;
+                            print("<div class='csfnt'><b>'File name'</b> field is empty</div>");
+                        }
+                        else{
+                            $file_name_bool = TRUE;
                         }
                         $margin = $_POST['margin'];
                         if($margin == NULL){
-                            print("<div class='csfnt'>Margin field is empty</div>");
+                            $margin_bool = FALSE;
+                            print("<div class='csfnt'><b>'Margin'</b> field is empty</div>");
+                        }
+                        else{
+                            $margin_bool = TRUE;
                         }
                         $min_stock = $_POST['min_stock'];
                         if($min_stock == NULL){
-                            print("<div class='csfnt'>Min stock field is empty</div>");
+                            $min_stock_bool = FALSE;
+                            print("<div class='csfnt'><b>'Min stock'</b> field is empty</div>");
+                        }
+                        else{
+                            $min_stock_bool = TRUE;
                         }
                         $min_price = $_POST['min_price'];
                         if($min_price == NULL){
-                            print("<div class='csfnt'>Min price field is empty</div>");
+                            $min_price_bool = FALSE;
+                            print("<div class='csfnt'><b>'Min price'</b> field is empty</div>");
+                        }
+                        else{
+                            $min_price_bool = TRUE;
                         }
                         $companies = $_POST['companies'];
                         if($companies == NULL){
-                            print("<div class='csfnt'>Suppliers field is empty</div>");
+                            $companies_bool = FALSE;
+                            print("<div class='csfnt'><b>'Suppliers'</b> field is empty</div>");
+                        }
+                        else{
+                            $companies_bool = TRUE;
                         }
                         print("<br>");
                     }
@@ -140,7 +165,6 @@
 
                     $query = "select * from e_deals_tbl";
                     $result = $conn -> query($query);
-                    print("<a>{$query}</a>,<br>");
 
                     print("<table class='h-auto d-inline-block w-auto p-3'>");
                     print("<tr>");

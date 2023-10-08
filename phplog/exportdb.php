@@ -24,10 +24,10 @@
                                 </select>
                                 <!-- <input type="text" id ="user" name="export_for" />   -->
                             </p>  
-                            <p>  
+                            <!-- <p>  
                                 <label class='label-fnt'> File name  <span class="sfnt">(*.export.csv )</span> </label><br>  
                                 <input class='sfnt' type="text" name="file_name" />  
-                            </p>  
+                            </p>   -->
                             <p>  
                                 <label class='label-fnt'> Margin <span class="sfnt">( % )</span></label><br>
                                 <input class='sfnt' type="text" name = "margin" />  
@@ -110,14 +110,14 @@
                             else{
                                 $export_for_bool = TRUE;
                             }
-                            $file_name = $_POST['file_name'];
-                            if($file_name == NULL){
-                                $file_name_bool = FALSE;
-                                print("<div class='csfnt'><b>'File name'</b> field is empty</div>");
-                            }
-                            else{
-                                $file_name_bool = TRUE;
-                            }
+                            // $file_name = $_POST['file_name'];
+                            // if($file_name == NULL){
+                            //     $file_name_bool = FALSE;
+                            //     print("<div class='csfnt'><b>'File name'</b> field is empty</div>");
+                            // }
+                            // else{
+                            //     $file_name_bool = TRUE;
+                            // }
                             $margin = $_POST['margin'];
                             if($margin == NULL){
                                 $margin_bool = FALSE;
@@ -164,37 +164,51 @@
 
                     $query = "select * from e_deals_tbl";
                     $result = $conn -> query($query);
-
+                    
                     if($export_for_bool){
                         $file_name = "../ExportFiles/{$export_for}/{$export_for}.export.csv";
-                        var_dump($export_for_bool);
-                        var_dump($file_name);
                         $fhw = fopen($file_name, "w");
+                        chmod($file_name, 0666);
+                        if(!$fhw)  die("The file can't be open for writing<br>");
 
                         print("<table class='h-auto d-inline-block w-auto p-3'>");
                         print("<tr>");
+
+                        $field_name = array("ean", "manufacturer", "title", "stock", "price");
+                        $field_line = "";
                         while ($field_info = $result->fetch_field()){
                             print("<th class='ssfnt'>{$field_info->name}</th>");
+                            if(in_array($field_info->name, $field_name)){
+                                $field_line .= "{$field_info->name};";
+                            }
+                            else{
+                                continue;
+                            }
                         }
                         print("</tr>");
+                        $field_line = substr($field_line, 0, -1);
+                        $field_line .= "\r\n";
+                        fwrite($fhw, $field_line);
+                        fclose($fhw);
 
+                        
+                        $fha = fopen("{$file_path}{$file_name}", "a");
                         while($row = $result->fetch_row()){
                             // var_dump("<a>{$row[1]}</a><br>}");
                             if(in_array($row[1], $companies)){
                                 print("<tr>");
                                 foreach($row as $item){
                                     print("<td class='ssfnt'>{$item}</td>");
+                                    fwrite($fha, $item);
                                 }
                                 print("</tr>");
                             }
                         }
                         print("</table>");
+                        fclose($fhw);
 
                         $result->free_result();
                         $connection->closeDB();
-                    }
-                    else{
-                        print("<div class='csfnt'>Enter export file name</div>");
                     }
                     ?>
                 </div>

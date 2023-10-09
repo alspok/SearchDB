@@ -45,9 +45,9 @@
                                 <select name="companies[]" style="width:190px" size="8" multiple>
                                     <option class='sfnt' value="Gitana"> Gitana </option>
                                     <option class='sfnt' value="Action"> Action </option>
-                                    <option class='sfnt' value="Appolo"> Appolo </option>
+                                    <option class='sfnt' value="Apollo"> Apollo </option>
                                     <option class='sfnt' value="Domitech"> Domitech </option>
-                                    <option class='sfnt' value="Nzd"> Nzd </option>
+                                    <option class='sfnt' value="NZD"> NZD </option>
                                     <option class='sfnt' value="Verkkokouppa"> Verkkokouppa </option>
                                     <option class='sfnt' value="Cyberport"> Cyberport </option>
                                     <option class='sfnt' value="EETeuroparts"> EETeuroparts </option>
@@ -166,6 +166,7 @@
                     $result = $conn -> query($query);
                     
                     if($export_for_bool){
+                        var_dump($companies);
                         $file_name = "../ExportFiles/{$export_for}/{$export_for}.export.csv";
                         $fhw = fopen($file_name, "w");
                         chmod($file_name, 0666);
@@ -174,7 +175,7 @@
                         print("<table class='h-auto d-inline-block w-auto p-3'>");
                         print("<tr>");
 
-                        $field_name = array("ean", "manufacturer", "title", "stock", "price");
+                        $field_name = array("ean", "company", "manufacturer", "title", "stock", "price");
                         $field_line = "";
                         while ($field_info = $result->fetch_field()){
                             print("<th class='ssfnt'>{$field_info->name}</th>");
@@ -191,21 +192,62 @@
                         fwrite($fhw, $field_line);
                         fclose($fhw);
 
-                        
+                        print("tr");
                         $fha = fopen("{$file_path}{$file_name}", "a");
-                        while($row = $result->fetch_row()){
-                            // var_dump("<a>{$row[1]}</a><br>}");
-                            if(in_array($row[1], $companies)){
-                                print("<tr>");
-                                foreach($row as $item){
-                                    print("<td class='ssfnt'>{$item}</td>");
-                                    fwrite($fha, $item);
-                                }
-                                print("</tr>");
+                        while($row = $result->fetch_assoc()){
+                            $row_line = "";
+                            if(in_array($row['company'], $companies)){
+                                print("<td class='ssfnt'>{$row['company']}</td>");
+                                $row_line .= $row['company'] . ";";
+                                print("<td class='ssfnt'>{$row['ean']}</td>");
+                                $row_line .= $row['ean'] . ";";
+                                print("<td class='ssfnt'>{$row['manufacturer']}</td>");
+                                $row_line .=$row['manufacturer'] . ";";
+                                print("<td class='ssfnt'>{$row['title']}</td>");
+                                $row_line .= $row['title'] . ";";
+                                print("<td class='ssfnt'>{$row['stock']}</td>");
+                                $row_line .= $row['stock'] . ";";
+                                print("<td class='ssfnt'>{$row['price']}</td>");
+                                $row_line .= $row['price'] . "\r\n";
+                                print("<br>");
                             }
-                        }
+                            print("</tr>");
+                            fwrite($fha, $row_line);
+                        }   
+
+
+                        // $fha = fopen("{$file_path}{$file_name}", "a");
+                        // while($row = $result->fetch_assoc()){
+                        //     print("<tr");
+                        //     print("<td class='ssfnt'>{$row['ean']}</td>");
+                        //     print("<td class='ssfnt'>{$row['company']}</td>");
+                        //     print("\r\n");
+                        //     print("</tr>");
+                        // }
+
+
+
+
+                        // while($row = $result->fetch_row()){
+                        //     $row_line = "";
+                        //     // var_dump("<a>{$row[1]}</a><br>}");
+                        //     if(in_array($row[1], $companies)){
+                        //         print("<tr>");
+                        //         foreach($row as $item){
+                        //             var_dump($item);
+                        //             print("<td class='ssfnt'>{$item}</td>");
+                        //             if(in_array($item, $field_name)){
+                        //                 $row_line .= "{$item};";
+                        //             }
+                        //             $row_line = substr($row_line, 0, -1);
+                        //             $row_line .= "\r\n";
+                        //             fwrite($fha, $row_line);
+                        //         }
+                        //         print("</tr>");
+                        //     }
+                        // }
                         print("</table>");
-                        fclose($fhw);
+                        fclose($fha);
 
                         $result->free_result();
                         $connection->closeDB();

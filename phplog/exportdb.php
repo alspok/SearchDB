@@ -166,7 +166,6 @@
                     $result = $conn -> query($query);
                     
                     if($export_for_bool){
-                        var_dump($companies);
                         $file_name = "../ExportFiles/{$export_for}/{$export_for}.export.csv";
                         $fhw = fopen($file_name, "w");
                         chmod($file_name, 0666);
@@ -174,7 +173,6 @@
 
                         print("<table class='h-auto d-inline-block w-auto p-3'>");
                         print("<tr>");
-
                         $field_name = array("ean", "company", "manufacturer", "title", "stock", "price");
                         $field_line = "";
                         while ($field_info = $result->fetch_field()){
@@ -187,16 +185,17 @@
                             }
                         }
                         print("</tr>");
+
                         $field_line = substr($field_line, 0, -1);
                         $field_line .= "\r\n";
                         fwrite($fhw, $field_line);
                         fclose($fhw);
 
-                        print("tr");
                         $fha = fopen("{$file_path}{$file_name}", "a");
                         while($row = $result->fetch_assoc()){
                             $row_line = "";
                             if(in_array($row['company'], $companies)){
+                                print("<tr>");
                                 print("<td class='ssfnt'>{$row['company']}</td>");
                                 $row_line .= $row['company'] . ";";
                                 print("<td class='ssfnt'>{$row['ean']}</td>");
@@ -210,8 +209,8 @@
                                 print("<td class='ssfnt'>{$row['price']}</td>");
                                 $row_line .= $row['price'] . "\r\n";
                                 print("<br>");
+                                print("</tr>");
                             }
-                            print("</tr>");
                             fwrite($fha, $row_line);
                         }   
 

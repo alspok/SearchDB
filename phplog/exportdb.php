@@ -228,37 +228,6 @@
                             fwrite($fha, $row_line);
                         }   
 
-
-                        // $fha = fopen("{$file_path}{$file_name}", "a");
-                        // while($row = $result->fetch_assoc()){
-                        //     print("<tr");
-                        //     print("<td class='ssfnt'>{$row['ean']}</td>");
-                        //     print("<td class='ssfnt'>{$row['company']}</td>");
-                        //     print("\r\n");
-                        //     print("</tr>");
-                        // }
-
-
-
-
-                        // while($row = $result->fetch_row()){
-                        //     $row_line = "";
-                        //     // var_dump("<a>{$row[1]}</a><br>}");
-                        //     if(in_array($row[1], $companies)){
-                        //         print("<tr>");
-                        //         foreach($row as $item){
-                        //             var_dump($item);
-                        //             print("<td class='ssfnt'>{$item}</td>");
-                        //             if(in_array($item, $field_name)){
-                        //                 $row_line .= "{$item};";
-                        //             }
-                        //             $row_line = substr($row_line, 0, -1);
-                        //             $row_line .= "\r\n";
-                        //             fwrite($fha, $row_line);
-                        //         }
-                        //         print("</tr>");
-                        //     }
-                        // }
                         print("</table>");
                         fclose($fha);
 

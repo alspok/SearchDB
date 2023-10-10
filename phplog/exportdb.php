@@ -110,14 +110,6 @@
                             else{
                                 $export_for_bool = TRUE;
                             }
-                            // $file_name = $_POST['file_name'];
-                            // if($file_name == NULL){
-                            //     $file_name_bool = FALSE;
-                            //     print("<div class='csfnt'><b>'File name'</b> field is empty</div>");
-                            // }
-                            // else{
-                            //     $file_name_bool = TRUE;
-                            // }
                             $margin = $_POST['margin'];
                             if($margin == NULL){
                                 $margin_bool = FALSE;
@@ -151,6 +143,10 @@
                                 $companies_bool = TRUE;
                             }
                         }
+                        
+                        include_once("supplierdb.php");
+                        supplierdb($margin, $min_stock, $min_price, $companies);
+
                         ?>
                 </div>
             </div>
@@ -175,15 +171,16 @@
                         print("<tr>");
                         $field_name = array("ean", "company", "manufacturer", "title", "stock", "price");
                         $field_line = "";
-                        while ($field_info = $result->fetch_field()){
+
+                        while($field_info = $result->fetch_field()){
                             print("<th class='ssfnt'>{$field_info->name}</th>");
-                            if(in_array($field_info->name, $field_name)){
-                                $field_line .= "{$field_info->name};";
+                            // if(in_array($field_info->name, $field_name)){
+                            //     $field_line .= "{$field_info->name};";
                             }
-                            else{
-                                continue;
-                            }
-                        }
+                            // else{
+                            //     continue;
+                            // }
+                        // }
                         print("</tr>");
 
                         $field_line = substr($field_line, 0, -1);
@@ -196,19 +193,36 @@
                             $row_line = "";
                             if(in_array($row['company'], $companies)){
                                 print("<tr>");
+                                print("<td class='ssfnt'>{$row['id']}</td>");
                                 print("<td class='ssfnt'>{$row['company']}</td>");
                                 $row_line .= $row['company'] . ";";
                                 print("<td class='ssfnt'>{$row['ean']}</td>");
                                 $row_line .= $row['ean'] . ";";
-                                print("<td class='ssfnt'>{$row['manufacturer']}</td>");
+                                print("<td class='ssfnt sku'>{$row['sku']}</td>");
+                                print("<td class='ssfnt category'>{$row['category']}</td>");
+                                print("<td class='ssfnt manufacturer'>{$row['manufacturer']}</td>");
                                 $row_line .=$row['manufacturer'] . ";";
-                                print("<td class='ssfnt'>{$row['title']}</td>");
+                                print("<td class='ssfnt title'>{$row['title']}</td>");
                                 $row_line .= $row['title'] . ";";
                                 print("<td class='ssfnt'>{$row['stock']}</td>");
                                 $row_line .= $row['stock'] . ";";
                                 print("<td class='ssfnt'>{$row['price']}</td>");
+                                print("<td class='ssfnt'>{$row['weight']}</td>");
+                                print("<td class='ssfnt'>{$row['time_stamp']}</td>");
                                 $row_line .= $row['price'] . "\r\n";
-                                print("<br>");
+                                print("</tr>");
+                                print("<tr style='color: blue'>");
+                                print("<td class='ssfnt'></td>");
+                                print("<td class='ssfnt'>{$row['company']}</td>");
+                                print("<td class='ssfnt'>{$row['ean']}</td>");
+                                print("<td class='ssfnt'></td>");
+                                print("<td class='ssfnt'></td>");
+                                print("<td class='ssfnt'>{$row['manufacturer']}</td>");
+                                print("<td class='ssfnt'>{$row['title']}</td>");
+                                print("<td class='ssfnt'>{$row['stock']}</td>");
+                                print("<td class='ssfnt'>{$row['price']}</td>");
+                                print("<td class='ssfnt'></td>");
+                                print("<td class='ssfnt'></td>");
                                 print("</tr>");
                             }
                             fwrite($fha, $row_line);

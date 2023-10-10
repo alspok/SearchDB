@@ -61,6 +61,26 @@ body{
   font-size: 8;
 }
 
+.title{
+  width: 30%;
+}
+
+.sku{
+  width: 5%;
+}
+
+.category{
+  width: 10%;
+}
+
+.ean{
+  width: 3%;;
+}
+
+.manufacturer{
+  width: 10%;
+}
+
 footer{
     display:flex;
     background-color: whitesmoke;

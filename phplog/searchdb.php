@@ -54,13 +54,6 @@ include_once("../Classes/ConnectDB.php");
 $connection = new ConncctDB();
 $conn = $connection->connectDB();
 
-// $server = "db-mysql-fra1-42194-do-user-14106707-0.b.db.ondigitalocean.com";
-// $username = "doadmin";
-// $password = "AVNS_IzETuacH57EOU-TThcJ";
-// $database = "e_deals_db";
-// $port = 25060;
-// $sslmode = "REQUIRE";
-
 if (!$conn){
     die("<br>Connection failed");
 }
@@ -75,13 +68,17 @@ if(!empty($name)){
 }
 
 $result = $conn->query($query);
-print("<table>");
-while($head = $result->fetch_field()){
-    print("<tr>");
 
+print("<table class='h-auto d-inline-block w-auto p-3'>");
+print("<tr>");
+// $field_name = array("company", "ean", "manufacturer", "title", "stock", "price");
+$field_line = "";
 
-}
-print("/table");
+while($field_info = $result->fetch_field()){
+    print("<th class='ssfnt'>{$field_info->name}</th>");
+    }
+print("</tr>");
+print("</table");
 
 print("<p style='font-size: 14'>Company | <b>EAN</b> | SKU | Manufacturer | <b>Stock</b> | Title | <b>Price</b> | Weight |</p>");
 foreach($result as $row){

@@ -13,8 +13,8 @@
         <div class="d-flex align-items-center justify-content-center" style="height: 250px;">
             <div class="p-4 m-2 text-black">
             <div class="row">
-                <h6>Database created</h6>
-                <div style='font-size: 14px'>&emsp;<?php require "dbShowDate.php"; ?></div>
+                <div class='sfnt'><b>Database created</b></div>
+                <div class='sfnt'>&emsp;<?php require "dbShowDate.php"; ?></div>
             </div>
             <br>
             <div class="row">
@@ -50,32 +50,39 @@ $sku = $_POST['sku'];
 $name = $_POST['name'];
 }
 
-$server = "db-mysql-fra1-42194-do-user-14106707-0.b.db.ondigitalocean.com";
-$username = "doadmin";
-$password = "AVNS_IzETuacH57EOU-TThcJ";
-$database = "e_deals_db";
-$port = 25060;
-$sslmode = "REQUIRE";
+include_once("../Classes/ConnectDB.php");
+$connection = new ConncctDB();
+$conn = $connection->connectDB();
 
-$conn = mysqli_connect($server, $username, $password, $database, $port, $sslmode);
+// $server = "db-mysql-fra1-42194-do-user-14106707-0.b.db.ondigitalocean.com";
+// $username = "doadmin";
+// $password = "AVNS_IzETuacH57EOU-TThcJ";
+// $database = "e_deals_db";
+// $port = 25060;
+// $sslmode = "REQUIRE";
 
 if (!$conn){
-    die("<br>Connection failed: " . mysqli_connect_error());
-  }
-
+    die("<br>Connection failed");
+}
 if(!empty($ean)){
     $query = "select * from e_deals_tbl where ean={$ean}";
 }
-
 if(!empty($sku)){
     $query = "select * from e_deals_tbl where sku='{$sku}'";
 }
-
 if(!empty($name)){
     $query = "select * from e_deals_tbl where title like '%{$name}%'";
 }
 
 $result = $conn->query($query);
+print("<table>");
+while($head = $result->fetch_field()){
+    print("<tr>");
+
+
+}
+print("/table");
+
 print("<p style='font-size: 14'>Company | <b>EAN</b> | SKU | Manufacturer | <b>Stock</b> | Title | <b>Price</b> | Weight |</p>");
 foreach($result as $row){
     print("<a style='font-size: 12px'> {$row['company']} | <b>{$row['ean']}</b> | {$row['sku']} | 

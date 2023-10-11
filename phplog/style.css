@@ -17,6 +17,11 @@ body{
     background: #eee;  
 }  
 
+td.fitwidth {
+  width: 1px;
+  white-space: nowrap;
+}
+
 .btn{
     color: #fff;  
     background: #337ab7;  
@@ -61,12 +66,16 @@ body{
   font-size: 8;
 }
 
+.id{
+  width: 2%;
+}
+
 .title{
-  width: 30%;
+  width: 50%;
 }
 
 .sku{
-  width: 5%;
+  width: 10%;
 }
 
 .category{
@@ -74,7 +83,7 @@ body{
 }
 
 .ean{
-  width: 3%;;
+  width: 12%;;
 }
 
 .manufacturer{

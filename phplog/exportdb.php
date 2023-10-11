@@ -144,8 +144,15 @@
                             }
                         }
                         
-                        include_once("supplierdb.php");
-                        supplierdb($margin, $min_stock, $min_price, $companies);
+                        if(($margin_bool or $min_stock_bool or $min_price_bool) and $companies_bool){
+                            include_once("supplierDB.php");
+                            supplierUpdateDB($margin, $min_stock, $min_price, $companies);
+                        }
+                        else{
+                            die("<a class='sfnt'>Enter all fields</a>");
+                        }
+                        // include_once("supplierdb.php");
+                        // supplierdb($export_for_bool, $margin, $min_stock, $min_price, $companies);
 
                         ?>
                 </div>
@@ -166,49 +173,46 @@
                         $fhw = fopen($file_name, "w");
                         chmod($file_name, 0666);
                         if(!$fhw)  die("The file can't be open for writing<br>");
+                        fwrite($fhw, "company;ean;manufacturer;title;price\r\n");
+                        fclose($fhw);
 
                         print("<table class='h-auto d-inline-block w-auto p-3'>");
                         print("<tr>");
-                        $field_name = array("ean", "company", "manufacturer", "title", "stock", "price");
+                        // $field_name = array("company", "ean", "manufacturer", "title", "stock", "price");
                         $field_line = "";
 
                         while($field_info = $result->fetch_field()){
                             print("<th class='ssfnt'>{$field_info->name}</th>");
-                            // if(in_array($field_info->name, $field_name)){
-                            //     $field_line .= "{$field_info->name};";
                             }
-                            // else{
-                            //     continue;
-                            // }
-                        // }
                         print("</tr>");
 
-                        $field_line = substr($field_line, 0, -1);
-                        $field_line .= "\r\n";
-                        fwrite($fhw, $field_line);
-                        fclose($fhw);
+                        
+                        // $field_line = substr($field_line, 0, -1);
+                        // $field_line .= "\r\n";
+                        // fwrite($fhw, $field_line);
+                        // fclose($fhw);
 
                         $fha = fopen("{$file_path}{$file_name}", "a");
                         while($row = $result->fetch_assoc()){
                             $row_line = "";
                             if(in_array($row['company'], $companies)){
                                 print("<tr>");
-                                print("<td class='ssfnt'>{$row['id']}</td>");
+                                print("<td class='ssfnt id'>{$row['id']}</td>");
                                 print("<td class='ssfnt'>{$row['company']}</td>");
                                 $row_line .= $row['company'] . ";";
-                                print("<td class='ssfnt'>{$row['ean']}</td>");
+                                print("<td class='ssfnt ean'>{$row['ean']}</td>");
                                 $row_line .= $row['ean'] . ";";
                                 print("<td class='ssfnt sku'>{$row['sku']}</td>");
-                                print("<td class='ssfnt category'>{$row['category']}</td>");
-                                print("<td class='ssfnt manufacturer'>{$row['manufacturer']}</td>");
+                                print("<td class='ssfnt fitwidth'>{$row['category']}</td>");
+                                print("<td class='ssfnt fitwidth'>{$row['manufacturer']}</td>");
                                 $row_line .=$row['manufacturer'] . ";";
-                                print("<td class='ssfnt title'>{$row['title']}</td>");
+                                print("<td class='ssfnt fitwidth'>{$row['title']}</td>");
                                 $row_line .= $row['title'] . ";";
                                 print("<td class='ssfnt'>{$row['stock']}</td>");
                                 $row_line .= $row['stock'] . ";";
                                 print("<td class='ssfnt'>{$row['price']}</td>");
                                 print("<td class='ssfnt'>{$row['weight']}</td>");
-                                print("<td class='ssfnt'>{$row['time_stamp']}</td>");
+                                print("<td class='ssfnt fitwidth'>{$row['time_stamp']}</td>");
                                 $row_line .= $row['price'] . "\r\n";
                                 print("</tr>");
                                 print("<tr style='color: blue'>");

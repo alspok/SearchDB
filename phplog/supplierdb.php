@@ -31,6 +31,7 @@ function supplierdb($margin, $min_stock, $min_price, $companies){
 }
 
 function supplierUpdateDB($margin, $min_stock, $min_price, $companies){
+    var_dump($margin, $min_stock, $min_price, $companies);
     include_once("../Classes/ConnectDB.php");
             $connection = new ConncctDB();
             $conn = $connection->connectDB();

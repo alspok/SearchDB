@@ -18,9 +18,9 @@
             </div>
             <br>
             <div class="row">
-                <h2>Search</h2>
+                <h6>Search</h6>
             </div>
-            <div class="row">
+            <div class="row sfnt">
                 <form action="" method="post">
                     <label> EAN: </label>  
                     <input type="text" name="ean">
@@ -30,7 +30,7 @@
                     <input type="text" name="name">
             </div>
                 <div class="row">
-                    <input type= "submit" class="btn center" value="Search" />
+                    <button class="button" value="search">Search</button>
                 </div>
                 <br><br>
                 </form>

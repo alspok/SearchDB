@@ -12,17 +12,17 @@ class ConncctDB {
  public function connectDB() {
   $this->conn = mysqli_connect($this->server, $this->username, $this->password, $this->database, $this->port, $this->sslmode);
   if(!$this->conn){
-    die("<p class='ssfnt'>Connection failed:</p> " . mysqli_connect_error());
+    die("<a class='ssfnt'>Connection failed:</a> " . mysqli_connect_error());
   }
-  else{
-    print("<p class='ssfnt'>Connection established</p>");
-  }
+  // else{
+  //   print("<a class='ssfnt'>Connection established</a>");
+  // }
   return $this->conn;
  }
 
  public function closeDB(){
     $this->conn->close();
-    print("<p class='ssfnt'>Connection closed</p>");
+    // print("<a class='ssfnt'>Connection closed</a>");
  }
 }
 

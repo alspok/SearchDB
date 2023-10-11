@@ -27,7 +27,7 @@
                             <!-- <p>  
                                 <label class='label-fnt'> File name  <span class="sfnt">(*.export.csv )</span> </label><br>  
                                 <input class='sfnt' type="text" name="file_name" />  
-                            </p>   -->
+                            </p>  
                             <p>  
                                 <label class='label-fnt'> Margin <span class="sfnt">( % )</span></label><br>
                                 <input class='sfnt' type="text" name = "margin" />  
@@ -39,7 +39,7 @@
                             <p>
                                 <label class='label-fnt'> Min price </label><br>
                                 <input class='sfnt' type="text" name = "min_price" />  
-                            </p>  
+                            </p>   -->
                             <p>
                                 <label class='label-fnt'> Suppliers <span class="sfnt">( 'ctr' for multiple selection )</span> </label><br>
                                 <select name="companies[]" style="width:190px" size="8" multiple>
@@ -53,11 +53,34 @@
                                     <option class='sfnt' value="EETeuroparts"> EETeuroparts </option>
                                 </select>
                             </p>  
-                            <p>     
-                                <input type= "submit" class="btn" value="Export" />
+                            <p>
+                                <button class='button' name='export'>Export</button>
+                                <!-- <input type= "submit" class="btn" value="Export" /> -->
                             </p>  
                     </form>
+                        <?php
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $export_for = $_POST['export_for'];
+                            if($export_for == NULL){
+                                $export_for_bool = FALSE;
+                                print("<div class='csfnt'><b>'Export for'</b> is empty</div>");
+                            }
+                            else{
+                                $export_for_bool = TRUE;
+                            }
+                            $companies = $_POST['companies'];
+                            if($companies == NULL){
+                                $companies_bool = FALSE;
+                                print("<div class='csfnt'><b>'Suppliers'</b> field is empty</div>");
+                            }
+                            else{
+                                $companies_bool = TRUE;
+                            }
+                        }
+                        ?>
                 </div>
+                
+                
                 
                 <div class='col-auto sfnt border border-2'>
                     <h6>Exported files</h6>
@@ -74,7 +97,11 @@
                                 print("<a class='sfnt'><b>{$file}.export.csv</b> created at: {$cdate}</a></br>");
                             }
                         }
-                        print("<br><br>");
+                        print("<br>");
+                        ?>
+
+                    <h6>Suppliers database</h6>
+                        <?php
                         include_once("../Classes/ConnectDB.php");
                         $connection = new ConncctDB();
                         $conn = $connection->connectDB();
@@ -100,16 +127,47 @@
 
                         $result->free_result();
                         $connection->closeDB();
+                        ?>
 
+                    <form method="post">
+                        <table>
+                            <tr>
+                                <td><label class='label-fnt'> Margin <span class="sfnt">( % )</span></label></td>
+                                <td><input class='sfnt' type="text" name = "margin" /></td>
+                            </tr>
+                            <tr>
+                                <td><label class='label-fnt'> Min stock </label></td>
+                                <td><input class='sfnt' type="text" name = "min_stock" /></td>
+                            </tr>
+                            <tr>
+                                <td><label class='label-fnt'> Min price </label></td>
+                                <td><input class='sfnt' type="text" name = "min_price" /><br></td>
+                            </tr>
+                            <tr>
+                                <td><label class='label-fnt'> Suppliers </label></td>
+                                <td class='selfnt'>
+                                <select name="companies[]" style="width:125px" size="1">
+                                    <option class='sfnt' value="Gitana"> Gitana </option>
+                                    <option class='sfnt' value="Action"> Action </option>
+                                    <option class='sfnt' value="Apollo"> Apollo </option>
+                                    <option class='sfnt' value="Domitech"> Domitech </option>
+                                    <option class='sfnt' value="NZD"> NZD </option>
+                                    <option class='sfnt' value="Verkkokouppa"> Verkkokouppa </option>
+                                    <option class='sfnt' value="Cyberport"> Cyberport </option>
+                                    <option class='sfnt' value="EETeuroparts"> EETeuroparts </option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><button class="button" name="update">Update DB</button></td>
+                                <td><button class="button" name="refresh">Refresh DB</button></td>
+                                <!-- <td><input type= "submit" class="btn btn-primary btn-xs" name="update" value="Update DB"/></td>
+                                <td><input type= "submit" class="btn btn-primary btn-xs" name="refresh" value="Refresh DB"/></td> -->
+                            </tr>
+                        </table>
+                    </form>
+                        <?php
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                            $export_for = $_POST['export_for'];
-                            if($export_for == NULL){
-                                $export_for_bool = FALSE;
-                                print("<div class='csfnt'><b>'Export for'</b> is empty</div>");
-                            }
-                            else{
-                                $export_for_bool = TRUE;
-                            }
                             $margin = $_POST['margin'];
                             if($margin == NULL){
                                 $margin_bool = FALSE;
@@ -143,16 +201,24 @@
                                 $companies_bool = TRUE;
                             }
                         }
+
+                        if (isset($_POST['update'])) {
+                            if(($margin_bool or $min_stock_bool or $min_price_bool) and $companies_bool){
+                                include_once("../Classes/ConnectDB.php");
+                                $connection = new ConncctDB();
+                                $conn = $connection->connectDB();
+    
+                                foreach($companies as $company){
+                                    $query = "update e_supplier_tbl set margin='{$margin}', min_price='{$min_price}', min_stock='{$min_stock}' where company='{$company}'";
+                                    $conn -> query($query);
+                                }
+    
+                                $connection->closeDB();
+                            }
+                        } else if (isset($_POST['refresh'])) {
+                            //refreshe action
+                        }
                         
-                        if(($margin_bool or $min_stock_bool or $min_price_bool) and $companies_bool){
-                            include_once("supplierDB.php");
-                            supplierUpdateDB($margin, $min_stock, $min_price, $companies);
-                        }
-                        else{
-                            die("<a class='sfnt'>Enter all fields</a>");
-                        }
-                        // include_once("supplierdb.php");
-                        // supplierdb($export_for_bool, $margin, $min_stock, $min_price, $companies);
 
                         ?>
                 </div>
@@ -196,7 +262,7 @@
                         while($row = $result->fetch_assoc()){
                             $row_line = "";
                             if(in_array($row['company'], $companies)){
-                                print("<tr>");
+                                print("<tr style='width: 100%'>");
                                 print("<td class='ssfnt id'>{$row['id']}</td>");
                                 print("<td class='ssfnt'>{$row['company']}</td>");
                                 $row_line .= $row['company'] . ";";
@@ -212,7 +278,7 @@
                                 $row_line .= $row['stock'] . ";";
                                 print("<td class='ssfnt'>{$row['price']}</td>");
                                 print("<td class='ssfnt'>{$row['weight']}</td>");
-                                print("<td class='ssfnt fitwidth'>{$row['time_stamp']}</td>");
+                                print("<td class='ssfnt'>{$row['time_stamp']}</td>");
                                 $row_line .= $row['price'] . "\r\n";
                                 print("</tr>");
                                 print("<tr style='color: blue'>");

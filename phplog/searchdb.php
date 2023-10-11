@@ -70,11 +70,9 @@ if(!empty($name)){
 $result = $conn->query($query);
 
 print("<table class='h-auto d-inline-block w-auto p-3'>");
-print("<tr>");
 while($field_info = $result->fetch_field()){
     print("<th class='ssfnt'>{$field_info->name}</th>");
     }
-print("</tr>");
 while($row = $result->fetch_assoc()){
     foreach($row as $item){
         print("<tr>");

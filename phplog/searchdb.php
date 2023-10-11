@@ -71,20 +71,34 @@ $result = $conn->query($query);
 
 print("<table class='h-auto d-inline-block w-auto p-3'>");
 print("<tr>");
-// $field_name = array("company", "ean", "manufacturer", "title", "stock", "price");
-$field_line = "";
-
 while($field_info = $result->fetch_field()){
     print("<th class='ssfnt'>{$field_info->name}</th>");
     }
 print("</tr>");
+while($row = $result->fetch_assoc()){
+    foreach($row as $item){
+        print("<tr>");
+            print("<td>{$item['id']}</td>");
+            print("<td>{$item['company']}</td>");
+            print("<td>{$item['ean']}</td>");
+            print("<td>{$item['sku']}</td>");
+            print("<td>{$item['manufacturer']}</td>");
+            print("<td>{$item['title']}</td>");
+            print("<td>{$item['stock']}</td>");
+            print("<td>{$item['price']}</td>");
+            print("<td>{$item['iweigth']}</td>");
+            print("<td>{$item['time_stamp']}</td>");
+        print("</tr>");
+    }
+}
+
 print("</table");
 
-print("<p style='font-size: 14'>Company | <b>EAN</b> | SKU | Manufacturer | <b>Stock</b> | Title | <b>Price</b> | Weight |</p>");
-foreach($result as $row){
-    print("<a style='font-size: 12px'> {$row['company']} | <b>{$row['ean']}</b> | {$row['sku']} | 
-          {$row['manufacturer']} | <b>{$row['stock']}</b> | {$row['title']} | <b>{$row['price']}</b> | 
-          {$row['weight']} | {$row['time_stamps']}<br> </a>");
-}
+// print("<p style='font-size: 14'>Company | <b>EAN</b> | SKU | Manufacturer | <b>Stock</b> | Title | <b>Price</b> | Weight |</p>");
+// foreach($result as $row){
+//     print("<a style='font-size: 12px'> {$row['company']} | <b>{$row['ean']}</b> | {$row['sku']} | 
+//           {$row['manufacturer']} | <b>{$row['stock']}</b> | {$row['title']} | <b>{$row['price']}</b> | 
+//           {$row['weight']} | {$row['time_stamps']}<br> </a>");
+// }
 
 ?>

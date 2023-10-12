@@ -17,7 +17,8 @@ body{
     background: #eee;  
 }  
 
-th:nth-child(2) {
+
+/* th:nth-child(2) {
   padding-right: 20px;
   width: 1px;
   white-space: nowrap;
@@ -25,6 +26,11 @@ th:nth-child(2) {
 
 ​td:nth-child(2) {
   padding-right: 20px;
+  width: 1px;
+  white-space: nowrap;
+} */
+
+.autowidth{
   width: 1px;
   white-space: nowrap;
 }
@@ -156,6 +162,26 @@ footer{
   font-size: 11px;
   transition: background 0.3s;
 }
+
+.inbutton {
+  --width: 100px;
+  --height: 25px;
+  --tooltip-height: 35px;
+  --tooltip-width: 90px;
+  --gap-between-tooltip-to-button: 18px;
+  --button-color: #7496b9;;
+  --tooltip-color: #fff;
+  width: var(--width);
+  height: var(--height);
+  background: var(--button-color);
+  position: relative;
+  text-align: center;
+  border-radius: 0.45em;
+  font-family: "Arial";
+  font-size: 11px;
+  transition: background 0.3s;
+}
+
 
 .button::before {
   position: absolute;

@@ -13,15 +13,31 @@
         <div class="d-flex align-items-center justify-content-center" style="height: 250px;">
             <div class="p-4 m-2 text-black">
                 <div class="row">
-                    <div class="col-3"><a><h6>Select</h6></a></div>
-                    <button class="button" href="searchdb.php" value="search">Search DB</button>
+                    <div class="col"><a><h5>Select</h5></a></div>
+                    <div class="col">
+                        <form action="http://products.ledynas.eu/SearchDB/phplog/searchdb.php">
+                            <input class="inbutton" type="submit" value="Search DB" />
+                        </form>
+                    </div>
+                    <div class="col"
+                        <form action="http://products.ledynas.eu/SearchDB/phplog/querydb.php">
+                            <input class="inbutton" type="submit" value="Query" />
+                        </form>
+                    </div>
+                    <div class="col">
+                        <form action="http://products.ledynas.eu/SearchDB/phplog/exportdb.php">
+                            <input class="inbutton" type="submit" value="Export DB" />
+                        </form>
+                    </div>
+                    <!-- <input class='inbutton' type="submit" value="Search DB" />
+                    <button class="button" href="http://165.232.112.229/SearchDB/phplog/searchdb.php" value="search">Search DB</button>
                     <button class="button" href="query.php" value="query"> Query DB</button>
-                    <button class="button" href="export.php" value="export">Export DB</button>
+                    <button class="button" href="export.php" value="export">Export DB</button> -->
                 </div>
             </div>
         </div>
     </body>
-    <footer>
+    <footer class="sfnt">
         &copy; <em id="date"></em> 2023
     </footer>
 </html>

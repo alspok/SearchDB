@@ -75,14 +75,15 @@ if(!empty($title)){
 
 $result = $conn->query($query);
 
-print("<table class='h-auto d-inline-block w-auto p-3'>");
+// print("<table class='h-auto d-inline-block w-auto p-3'>");
+print("<table style='width: 100%'>");
 while($field_info = $result->fetch_field()){
-    print("<th class='ssfnt'>{$field_info->name}</th>");
+    print("<th class='ssfnt autowidth'>{$field_info->name}</th>");
     }
 while($row = $result->fetch_assoc()){
     print("<tr>");
     foreach($row as $item){
-            print("<td class='ssfnt'>{$item}</td>");
+            print("<td class='ssfnt autowidth'>{$item}</td>");
     }
     print("</tr>");
 }

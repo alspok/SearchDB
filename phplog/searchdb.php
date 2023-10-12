@@ -22,12 +22,14 @@
             </div>
             <div class="row sfnt">
                 <form action="" method="post">
+                    <label>Company: </label>
+                    <input type="text" name="company" />
                     <label> EAN: </label>  
-                    <input type="text" name="ean">
+                    <input type="text" name="ean" />
                     <label>SKU: </label>
-                    <input type="text" name="sku">
-                    <label>Name: </label>
-                    <input type="text" name="name">
+                    <input type="text" name="sku" />
+                    <label>Title: </label>
+                    <input type="text" name="title" />
             </div>
                 <div class="row">
                     <button class="button" value="search">Search</button>
@@ -45,9 +47,10 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-$ean = $_POST['ean'];
-$sku = $_POST['sku'];
-$name = $_POST['name'];
+    $company = $_POST['company'];
+    $ean = $_POST['ean'];
+    $sku = $_POST['sku'];
+    $title = $_POST['title'];
 }
 
 include_once("../Classes/ConnectDB.php");
@@ -57,14 +60,17 @@ $conn = $connection->connectDB();
 if (!$conn){
     die("<br>Connection failed");
 }
+if(!empty($company)){
+    $query = "select * from e_deals_tbl where company='{$company}'";
+}
 if(!empty($ean)){
-    $query = "select * from e_deals_tbl where ean={$ean}";
+    $query = "select * from e_deals_tbl where ean='{$ean}'";
 }
 if(!empty($sku)){
     $query = "select * from e_deals_tbl where sku='{$sku}'";
 }
-if(!empty($name)){
-    $query = "select * from e_deals_tbl where title like '%{$name}%'";
+if(!empty($title)){
+    $query = "select * from e_deals_tbl where title like '%{$title}%'";
 }
 
 $result = $conn->query($query);
@@ -74,20 +80,11 @@ while($field_info = $result->fetch_field()){
     print("<th class='ssfnt'>{$field_info->name}</th>");
     }
 while($row = $result->fetch_assoc()){
+    print("<tr>");
     foreach($row as $item){
-        print("<tr>");
-            print("<td>{$item['id']}</td>");
-            print("<td>{$item['company']}</td>");
-            print("<td>{$item['ean']}</td>");
-            print("<td>{$item['sku']}</td>");
-            print("<td>{$item['manufacturer']}</td>");
-            print("<td>{$item['title']}</td>");
-            print("<td>{$item['stock']}</td>");
-            print("<td>{$item['price']}</td>");
-            print("<td>{$item['iweigth']}</td>");
-            print("<td>{$item['time_stamp']}</td>");
-        print("</tr>");
+            print("<td class='ssfnt'>{$item}</td>");
     }
+    print("</tr>");
 }
 
 print("</table");

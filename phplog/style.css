@@ -17,11 +17,17 @@ body{
     background: #eee;  
 }  
 
-th, td:nth-child(2) {
+th:nth-child(2) {
   padding-right: 20px;
   width: 1px;
   white-space: nowrap;
-}​
+}
+
+​td:nth-child(2) {
+  padding-right: 20px;
+  width: 1px;
+  white-space: nowrap;
+}
 
 /* .fitwidth {
   width: 1px;

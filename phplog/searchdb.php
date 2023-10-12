@@ -61,24 +61,31 @@ if (!$conn){
     die("<br>Connection failed");
 }
 if(!empty($company)){
+    $cquery = "select count(*) from e_deals_tbl where company='{$company}'";
     $query = "select * from e_deals_tbl where company='{$company}'";
 }
 if(!empty($ean)){
+    $cquery = "select count(*) from e_deals_tbl where company='{$ean}'";
     $query = "select * from e_deals_tbl where ean='{$ean}'";
 }
 if(!empty($sku)){
+    $cquery = "select count(*) from e_deals_tbl where company='{$sku}'";
     $query = "select * from e_deals_tbl where sku='{$sku}'";
 }
 if(!empty($title)){
+    $cquery = "select count(*) from e_deals_tbl where company='%{$title}%'";
     $query = "select * from e_deals_tbl where title like '%{$title}%'";
 }
 
-$result = $conn->query($query);
+// $result = $conn->query($cquery);
+// var_dump($cquery);
+// var_dump($result);
+// print("<p>Query count: {$result}</p>");
 
-// print("<table class='h-auto d-inline-block w-auto p-3'>");
+$result = $conn->query($query);
 print("<table style='width: 100%'>");
 while($field_info = $result->fetch_field()){
-    print("<th class='ssfnt autowidth'>{$field_info->name}</th>");
+    print("<th class='sfnt autowidth'>{$field_info->name}</th>");
     }
 while($row = $result->fetch_assoc()){
     print("<tr>");
@@ -90,11 +97,5 @@ while($row = $result->fetch_assoc()){
 
 print("</table");
 
-// print("<p style='font-size: 14'>Company | <b>EAN</b> | SKU | Manufacturer | <b>Stock</b> | Title | <b>Price</b> | Weight |</p>");
-// foreach($result as $row){
-//     print("<a style='font-size: 12px'> {$row['company']} | <b>{$row['ean']}</b> | {$row['sku']} | 
-//           {$row['manufacturer']} | <b>{$row['stock']}</b> | {$row['title']} | <b>{$row['price']}</b> | 
-//           {$row['weight']} | {$row['time_stamps']}<br> </a>");
-// }
-
+$connection->closeDB();
 ?>

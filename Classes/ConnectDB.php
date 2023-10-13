@@ -1,6 +1,6 @@
 <?php
 
-class ConncctDB {
+class ConnectDB {
     private $server = "db-mysql-fra1-42194-do-user-14106707-0.b.db.ondigitalocean.com";
     private $username = "doadmin";
     private $password = "AVNS_IzETuacH57EOU-TThcJ";

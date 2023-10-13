@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 //   }
 
 include_once("../Classes/ConnectDB.php");
-$connection = new ConncctDB();
+$connection = new ConnectDB();
 $conn = $connection->connectDB();
 
 print("<div class='sfnt'><b>Query:</b> {$query}</div>");
